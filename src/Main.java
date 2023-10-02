@@ -14,7 +14,6 @@ public class Main {
         input = input.replaceAll("(\\d+|\\b[IVXLCDM]+\\b)"," $1 ");
         input = input.trim();
         String[] stringArray = input.split(" ");
-        System.out.println(Arrays.toString(stringArray));
             if (stringArray.length == 3) {
                 if (stringArray[0].matches("\\b[IVXLCDM]+\\b") && stringArray[2].matches("\\b[IVXLCDM]+\\b")) {
                     int numRom1 = convertToArab(stringArray[0]);
