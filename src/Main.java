@@ -1,81 +1,84 @@
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws ScannerException {
-        String input;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите операцию: ");
-        input = scanner.nextLine();
+        String input = scanner.nextLine().replaceAll(" ", "");
         calc(input);
-    } 
+    }
 
     public static String calc(String input) throws ScannerException {
+        input = input.replaceAll("(\\d+|\\b[IVXLCDM]+\\b)"," $1 ");
+        input = input.trim();
         String[] stringArray = input.split(" ");
-        if (stringArray.length == 3) {
-            if (stringArray[0].matches("\\b[IVXLCDM]+\\b") && stringArray[2].matches("\\b[IVXLCDM]+\\b")) {
-                int numRom1 = convertToArab(stringArray[0]);
-                int numRom2 = convertToArab(stringArray[2]);
-                String operRom = stringArray[1];
-                if ((numRom1 < 11 && numRom1 > 0) && (numRom2 < 11 && numRom2 > 0)) {
-                    switch (operRom) {
-                        case "+":
-                            input = String.valueOf(numRom1 + numRom2);
-                            System.out.println(convertToRoman(Integer.parseInt(input)));
-                            break;
-                        case "-":
-                            input = String.valueOf(numRom1 - numRom2);
-                            System.out.println(convertToRoman(Integer.parseInt(input)));
-                            break;
-                        case "*":
-                            input = String.valueOf(numRom1 * numRom2);
-                            System.out.println(convertToRoman(Integer.parseInt(input)));
-                            break;
-                        case "/":
-                            input = String.valueOf(numRom1 / numRom2);
-                            System.out.println(convertToRoman(Integer.parseInt(input)));
-                            break;
+        System.out.println(Arrays.toString(stringArray));
+            if (stringArray.length == 3) {
+                if (stringArray[0].matches("\\b[IVXLCDM]+\\b") && stringArray[2].matches("\\b[IVXLCDM]+\\b")) {
+                    int numRom1 = convertToArab(stringArray[0]);
+                    int numRom2 = convertToArab(stringArray[2]);
+                    String operRom = stringArray[1];
+                    if ((numRom1 < 11 && numRom1 > 0) && (numRom2 < 11 && numRom2 > 0)) {
+                        switch (operRom) {
+                            case "+":
+                                input = String.valueOf(numRom1 + numRom2);
+                                System.out.println(convertToRoman(Integer.parseInt(input)));
+                                break;
+                            case "-":
+                                input = String.valueOf(numRom1 - numRom2);
+                                System.out.println(convertToRoman(Integer.parseInt(input)));
+                                break;
+                            case "*":
+                                input = String.valueOf(numRom1 * numRom2);
+                                System.out.println(convertToRoman(Integer.parseInt(input)));
+                                break;
+                            case "/":
+                                input = String.valueOf(numRom1 / numRom2);
+                                System.out.println(convertToRoman(Integer.parseInt(input)));
+                                break;
+                        }
+                    } else {
+                        throw new ScannerException("Введите числа от I до X включительно");
                     }
-                } else {
-                    throw new ScannerException("Введите числа от I до X включительно");
-                }
-            } else if ((stringArray[0].matches("[-+]?\\d+")) && (stringArray[2].matches("[-+]?\\d+"))) {
-                int num1 = Integer.parseInt(stringArray[0]);
-                int num2 = Integer.parseInt(stringArray[2]);
-                String oper = stringArray[1];
-                if ((num1 < 11 && num1 > 0) && (num2 < 11 && num2 > 0)) {
-                    switch (oper) {
-                        case "+":
-                            input = String.valueOf(num1 + num2);
-                            System.out.println(input);
-                            break;
-                        case "-":
-                            input = String.valueOf(num1 - num2);
-                            System.out.println(input);
-                            break;
-                        case "*":
-                            input = String.valueOf(num1 * num2);
-                            System.out.println(input);
-                            break;
-                        case "/":
-                            input = String.valueOf(num1 / num2);
-                            System.out.println(input);
-                            break;
+                } else if ((stringArray[0].matches("[-+]?\\d+")) && (stringArray[2].matches("[-+]?\\d+"))) {
+                    int num1 = Integer.parseInt(stringArray[0]);
+                    int num2 = Integer.parseInt(stringArray[2]);
+                    String oper = stringArray[1];
+                    if ((num1 < 11 && num1 > 0) && (num2 < 11 && num2 > 0)) {
+                        switch (oper) {
+                            case "+":
+                                input = String.valueOf(num1 + num2);
+                                System.out.println(input);
+                                break;
+                            case "-":
+                                input = String.valueOf(num1 - num2);
+                                System.out.println(input);
+                                break;
+                            case "*":
+                                input = String.valueOf(num1 * num2);
+                                System.out.println(input);
+                                break;
+                            case "/":
+                                input = String.valueOf(num1 / num2);
+                                System.out.println(input);
+                                break;
+                        }
+                    } else {
+                        throw new ScannerException("Введите числа от 1 до 10 включительно");
                     }
+                } else if ((stringArray[0].matches("[-+]?\\d+") && stringArray[2].matches("\\b[IVXLCDM]+\\b")) ||
+                        (stringArray[0].matches("\\b[IVXLCDM]+\\b") && stringArray[2].matches("[-+]?\\d+"))) {
+                    throw new ScannerException("Используются одновременно разные системы счисления");
                 } else {
-                    throw new ScannerException("Введите числа от 1 до 10 включительно");
+                    throw new ScannerException("Ввести можно только арабские или римские числа только целые");
                 }
-            } else if ((stringArray[0].matches("[-+]?\\d+") && stringArray[2].matches("\\b[IVXLCDM]+\\b")) ||
-                    (stringArray[0].matches("\\b[IVXLCDM]+\\b") && stringArray[2].matches("[-+]?\\d+"))) {
-                throw new ScannerException("Используются одновременно разные системы счисления");
             } else {
-                throw new ScannerException("Ввести можно только арабские или римские числа только целые");
-            }
-        } else {
-            throw new ScannerException("Формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
+                throw new ScannerException("Формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)");
+           }
+            return input;
         }
-        return input;
-    }
 
     public static String convertToRoman(int numArabian) throws ScannerException {
         String[] roman = {"O", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
